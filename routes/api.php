@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('v1')->group(function () {
-    Route::resource('notes', NoteController::class)->except([
-        'create', 'edit'
-    ]);
+    Route::resource('companies', \App\Http\Controllers\CompanyController::class)->except(['create', 'edit'])->parameters(
+        ['companies'=>'company:uuid']
+    );
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
