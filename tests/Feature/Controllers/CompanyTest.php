@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Company;
 
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 it('does not allows to create a company without name', function () {
     $response = $this->postJson('/api/v1/companies', []);
@@ -33,8 +33,29 @@ it('can fetch a company', function () {
         'address' => $company->address,
         'br_no' => $company->br_no,
         'debtor_limit' => $company->debtor_limit,
-        'status' => $company->status,
+        'status' => $company->status
     ];
     $response->assertStatus(200)->assertJson($data);
 });
 
+it('can update a company', function () {
+    $company = Company::factory()->create();
+    $data = [
+        'reg_no' => '1234',
+        'name' => 'Test Company',
+        'address' => 'Test Address',
+        'br_no' =>'3456y',
+        'debtor_limit' => 1200,
+        'status' =>0,
+    ];
+    $response = $this->putJson("api/v1/companies/{$company->uuid}", $data);
+    $response->assertStatus(200)->assertJson($response->json());
+    $this->assertDatabaseHas('companies', $data);
+});
+
+it('can delete a company', function () {
+    $company = Company::factory()->create();
+    $response = $this->deleteJson("api/v1/companies/{$company->uuid}");
+
+    $response->assertStatus(200)->assertJson($response->json());
+})->group('delete');

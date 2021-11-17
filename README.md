@@ -76,7 +76,8 @@ BiFactor is the proposed solution for business requirement to extend current bus
 * email
 * password
 * role
-*
+
+
 
 ## Features
 Create Company
@@ -91,15 +92,5 @@ Set Debtor limit
 * Factor history analyze
 
 
-####Commands Used in Symfony
-* php vendor/bin/codecept generate:suite api - Run API Test Suit
-* php vendor/bin/codecept generate:cest api Registration - Create New Cest
-* composer install
-* composer recipes
-* php vendor/bin/codecept run api
-* symfony console make
-* symfony console make:controller AuthenticationController
-* symfony console make:user
-* symfony console make:entity User
-* symfony console doctrine:schema:update --force
-* symfony console doctrine:schema:update --force --env=test
+####Commands Used in Laravel
+

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Requests\CreateCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
@@ -72,11 +73,13 @@ class CompanyController extends APIController
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Company $company
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company):JsonResponse
     {
-        //
+        $data = $request->validated();
+        $company->update($data);
+        return $this->respondOk((new CompanyResource($company)));
     }
 
     /**
@@ -85,8 +88,13 @@ class CompanyController extends APIController
      * @param \App\Models\Company $company
      * @return Response
      */
-    public function destroy(Company $company)
+    public function destroy(Company $company):JsonResponse
     {
         //
+        $company->delete();
+        $data=[
+            'message'=>'Company has been deleted.'
+        ];
+        return $this->respondOk($data);
     }
 }

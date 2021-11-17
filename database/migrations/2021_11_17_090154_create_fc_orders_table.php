@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompaniesTable extends Migration
+class CreateFcOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('fc_orders', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
-            $table->string('reg_no')->nullable();
-            $table->string('name');
-            $table->text('address');
-            $table->string('br_no');
-            $table->decimal('debtor_limit',10,2);
+            $table->string('order_no')->nullable();
+            $table->date('order_date')->nullable();
+            $table->foreignId('company_id')->index();
+            $table->foreignId('invoice_id')->index();
             $table->boolean('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +33,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('factory_requests');
     }
 }

@@ -17,16 +17,16 @@ class CompanyFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'uuid' => $this->faker->uuid(),
             'name' => $this->faker->company(),
             'address' => $this->faker->address(),
             'reg_no' => $this->faker->postcode(),
-            'br_no' => $this->faker->randomNumber(8),
-            'debtor_limit' => $this->faker->randomNumber(6),
-            'status' => 0
+            'br_no' => $this->faker->postcode(),
+            'debtor_limit' => $this->faker->numberBetween(1000,100000),
+            'status' => $this->faker->numberBetween(1,0),
         ];
     }
 }
