@@ -1,32 +1,32 @@
 <?php
 namespace App\Repositories;
-use App\Models\Customer;
+use App\Models\Invoice;
 
-class CustomerRepository
+class InvoiceRepository
 {
     private $model;
 
     public function __construct()
     {
-        $this->model = new Customer();
+        $this->model = new Invoice();
     }
 
     public function index()
     {
-        return $this->model->paginate(10);
+        return $this->model->with('company','customer')->paginate(10);
     }
 
-    public function findOrFail(int $id): Customer
+    public function findOrFail(int $id): Invoice
     {
         return $this->model->findOrFail($id);
     }
 
-    public function store(array $attributes): Customer
+    public function store(array $attributes): Invoice
     {
         return $this->model->create($attributes);
     }
 
-    public function update(Customer $customer, array $attributes): Customer
+    public function update(Invoice $customer, array $attributes): Invoice
     {
         $customer->update($attributes);
         return $customer;

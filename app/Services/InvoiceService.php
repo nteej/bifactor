@@ -2,35 +2,35 @@
 
 namespace App\Services;
 
-use App\Repositories\CompanyRepository;
+use App\Repositories\InvoiceRepository;
 use Illuminate\Http\Request;
-use \App\Models\Company;
+use \App\Models\Invoice;
 
-class CompanyService
+class InvoiceService
 {
     protected $repository;
 
-    public function __construct(CompanyRepository $companyRepository)
+    public function __construct(InvoiceRepository $invoiceRepository)
     {
-        $this->repository = $companyRepository;
+        $this->repository = $invoiceRepository;
     }
 
     public function index()
     {
-        $company = $this->repository->index();
-        return $company;
+        $invoice = $this->repository->index();
+        return $invoice;
     }
 
-    public function create(Request $request): Company
+    public function create(Request $request): Invoice
     {
-        $company = $this->repository->store($request->all());
-        return $company;
+        $invoice = $this->repository->store($request->all());
+        return $invoice;
     }
 
-    public function update(Request $request): Company
+    public function update(Request $request): Invoice
     {
-        $company = $this->repository->findOrFail($request->id);
-        $company = $this->repository->update($company, $request->only(Company::UpdatableAttributes));
-        return $company;
+        $invoice = $this->repository->findOrFail($request->id);
+        $invoice = $this->repository->update($invoice, $request->only(Invoice::UpdatableAttributes));
+        return $invoice;
     }
 }

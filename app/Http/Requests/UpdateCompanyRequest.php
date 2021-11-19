@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCompanyRequest extends FormRequest
 {
@@ -24,11 +25,9 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'reg_no' => 'required',
-            'br_no' => 'required',
-            'debtor_limit' => 'required',
+            'id'             => "required",
+            'email'          => [Rule::unique('companies')->ignore($this->id),],
+            'info'   => "array",
         ];
     }
 }

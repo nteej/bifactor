@@ -2,22 +2,16 @@
 
 namespace Database\Factories;
 
-use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CompanyFactory extends Factory
+class CustomerFactory extends Factory
 {
-    /*
-     * The name of the corresponding model
-     * */
-    protected $model = Company::class;
-
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition(): array
+    public function definition()
     {
         return [
             'uuid' => $this->faker->uuid(),
@@ -27,7 +21,7 @@ class CompanyFactory extends Factory
             'info' => [
                 "address" => $this->faker->address()
             ],
-            'debtor_limit' => $this->faker->numberBetween(1000, 100000),
+            'credit_limit' => $this->faker->numberBetween(1000, 100000),
             'status' => $this->faker->numberBetween(1, 0),
         ];
     }

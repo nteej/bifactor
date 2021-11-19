@@ -1,36 +1,35 @@
 <?php
 
 namespace App\Services;
-
-use App\Repositories\CompanyRepository;
+use App\Repositories\CustomerRepository;
 use Illuminate\Http\Request;
-use \App\Models\Company;
+use \App\Models\Customer;
 
-class CompanyService
+class CustomerService
 {
     protected $repository;
 
-    public function __construct(CompanyRepository $companyRepository)
+    public function __construct(CustomerRepository $customerRepository)
     {
-        $this->repository = $companyRepository;
+        $this->repository = $customerRepository;
     }
 
     public function index()
     {
-        $company = $this->repository->index();
-        return $company;
+        $customer = $this->repository->index();
+        return $customer;
     }
 
-    public function create(Request $request): Company
+    public function create(Request $request): Customer
     {
-        $company = $this->repository->store($request->all());
-        return $company;
+        $customer = $this->repository->store($request->all());
+        return $customer;
     }
 
-    public function update(Request $request): Company
+    public function update(Request $request): Customer
     {
-        $company = $this->repository->findOrFail($request->id);
-        $company = $this->repository->update($company, $request->only(Company::UpdatableAttributes));
-        return $company;
+        $customer = $this->repository->findOrFail($request->id);
+        $customer = $this->repository->update($customer, $request->only(Customer::UpdatableAttributes));
+        return $customer;
     }
 }

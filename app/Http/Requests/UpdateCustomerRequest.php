@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateCompanyRequest extends FormRequest
+class UpdateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,9 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'             => "required",
-            'email'          => [Rule::unique('companies')->ignore($this->id),],
-            'info'   => "array",
+            'id' => "required",
+            'email' => [Rule::unique('companies')->ignore($this->id),],
+            'info' => "array",
         ];
     }
 }

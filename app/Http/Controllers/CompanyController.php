@@ -6,20 +6,24 @@ use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Requests\CreateCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
+use App\Services\CompanyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CompanyController extends APIController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
+    protected $service;
+    protected $model;
+
+    public function __construct(CompanyService $companyService)
     {
-        //
+        $this->service = $companyService;
+    }
+
+    public function index(){
+        $this->model=$this->service->index();
+        return $this->respondOk($this->model);
     }
 
     /**
@@ -29,7 +33,7 @@ class CompanyController extends APIController
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -40,9 +44,8 @@ class CompanyController extends APIController
      */
     public function store(CreateCompanyRequest $request)
     {
-        $data = $request->validated();
-        $company = Company::create($data);
-        return $this->respondOk(new CompanyResource ($company));
+        $this->model=$this->service->create($request);
+        return $this->respondOk(new CompanyResource ($this->model));
 
     }
 
@@ -75,11 +78,10 @@ class CompanyController extends APIController
      * @param \App\Models\Company $company
      * @return JsonResponse
      */
-    public function update(UpdateCompanyRequest $request, Company $company):JsonResponse
+    public function update(UpdateCompanyRequest $request):JsonResponse
     {
-        $data = $request->validated();
-        $company->update($data);
-        return $this->respondOk((new CompanyResource($company)));
+        $this->model=$this->service->update($request);
+        return $this->respondOk((new CompanyResource($this->model)));
     }
 
     /**

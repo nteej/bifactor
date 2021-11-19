@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyResource extends JsonResource
+class CustomerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,10 +21,10 @@ class CompanyResource extends JsonResource
             'contact' => $this->contact,
             'email' => $this->email,
             'info' => $this->info,
-            'debtor_limit' => $this->debtor_limit,
+            'credit_limit' => $this->credit_limit,
             'status' => $this->status,
-           /* 'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,*/
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

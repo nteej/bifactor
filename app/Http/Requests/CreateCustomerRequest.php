@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCompanyRequest extends FormRequest
+class CreateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +28,7 @@ class CreateCompanyRequest extends FormRequest
             'contact' => 'required|string',
             'email' => 'required|email',
             'info' => 'array',
-            'debtor_limit' => 'required',
+            'credit_limit' => 'required',
         ];
     }
 }

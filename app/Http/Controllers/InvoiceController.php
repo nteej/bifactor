@@ -2,19 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
+use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 
-class InvoiceController extends Controller
+class InvoiceController extends APIController
 {
+    protected $service;
+    protected $model;
+
+    public function __construct(InvoiceService $invoiceService)
+    {
+        $this->service = $invoiceService;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(): \Illuminate\Http\JsonResponse
     {
-        //
+        $this->model=$this->service->index();
+        return $this->respondOk($this->model);
     }
 
     /**
@@ -31,11 +42,12 @@ class InvoiceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $this->model=$this->service->create($request);
+        return $this->respondOk(new InvoiceResource ($this->model));
     }
 
     /**

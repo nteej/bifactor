@@ -7,16 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Invoice extends Model
+class Customer extends Model
 {
     use HasFactory, HasUuid, SoftDeletes;
 
-    const UpdatableAttributes = ['due_date', 'debtor_id', 'invoice_id', 'total_amount', 'info', 'state', 'status'];
+    const UpdatableAttributes = ['name', 'contact', 'email', 'info','credit_limit'];
     protected $guarded = [];
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s', 'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    /*public function getInfoAttribute($value)
+    {
+        return json_decode($value);
+    }*/
     public function setInfoAttribute($value)
     {
         $this->attributes['info'] = json_encode($value, JSON_UNESCAPED_UNICODE);
@@ -29,12 +33,5 @@ class Invoice extends Model
         $modelArray = $model->fromJson($jsonToConvert);
         return $modelArray;
 
-    }
-
-    public function customer(){
-        return $this->belongsTo(Customer::class,'debtor_id');
-    }
-    public function company(){
-        return $this->belongsTo(Company::class);
     }
 }

@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Note
  * @property int $id
  * @property string $uuid
- * @property string $reg_no
  * @property string $name
- * @property string $address
- * @property string $br_no
+ * @property string $contact
+ * @property string $email
+ * @property array $info
  * @property float $debtor_limit
  * @property boolean $status
  * @mixin EloquentBuilderMixin
@@ -24,5 +24,26 @@ class Company extends Model
 {
     use HasFactory, HasUuid, SoftDeletes;
 
+    const UpdatableAttributes = ['name', 'contact', 'email', 'info', 'debtor_limit'];
     protected $guarded = [];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s', 'updated_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    public function setInfoAttribute($value)
+    {
+        $this->attributes['info'] = json_encode($value, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getInfoAttribute()
+    {
+        $model = new $this;
+        $jsonToConvert = $this->attributes['info'];
+        $modelArray = $model->fromJson($jsonToConvert);
+        return $modelArray;
+
+    }
+    public function invoices(){
+        return $this->belongsTo(Invoice::class);
+    }
 }

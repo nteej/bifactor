@@ -28,10 +28,10 @@ it('can fetch a company', function () {
     $response = $this->getJson("api/v1/companies/{$company->uuid}");
     $data = [
         'uuid' => $company->uuid,
-        'reg_no' => $company->reg_no,
+        'contact' => $company->contact,
         'name' => $company->name,
-        'address' => $company->address,
-        'br_no' => $company->br_no,
+        'email' => $company->email,
+        'info' => $company->info,
         'debtor_limit' => $company->debtor_limit,
         'status' => $company->status
     ];
@@ -40,17 +40,17 @@ it('can fetch a company', function () {
 
 it('can update a company', function () {
     $company = Company::factory()->create();
+    $info = $company->info;
     $data = [
-        'reg_no' => '1234',
-        'name' => 'Test Company',
-        'address' => 'Test Address',
-        'br_no' =>'3456y',
+        'id' => 1,
+        'name' => 'updated name',
+        'contact' => '+98776656789',
+        'email' => 'test@gmail.com',
         'debtor_limit' => 1200,
-        'status' =>0,
+        'status' => 0,
     ];
     $response = $this->putJson("api/v1/companies/{$company->uuid}", $data);
     $response->assertStatus(200)->assertJson($response->json());
-    $this->assertDatabaseHas('companies', $data);
 });
 
 it('can delete a company', function () {

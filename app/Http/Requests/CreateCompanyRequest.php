@@ -25,9 +25,9 @@ class CreateCompanyRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'address' => 'required|string',
-            'reg_no' => 'required',
-            'br_no' => 'required',
+            'contact' => 'required|string',
+            'email' => 'required|email',
+            'info' => 'array',
             'debtor_limit' => 'required',
         ];
     }

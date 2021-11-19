@@ -1,16 +1,14 @@
 <?php
-
 namespace App\Repositories;
+use App\Models\Customer;
 
-use App\Models\Company;
-
-class CompanyRepository
+class CustomerRepository
 {
     private $model;
 
     public function __construct()
     {
-        $this->model = new Company();
+        $this->model = new Customer();
     }
 
     public function index()
@@ -18,19 +16,19 @@ class CompanyRepository
         return $this->model->paginate(10);
     }
 
-    public function findOrFail(int $id): Company
+    public function findOrFail(int $id): Customer
     {
         return $this->model->findOrFail($id);
     }
 
-    public function store(array $attributes): Company
+    public function store(array $attributes): Customer
     {
         return $this->model->create($attributes);
     }
 
-    public function update(Company $company, array $attributes): Company
+    public function update(Customer $customer, array $attributes): Customer
     {
-        $company->update($attributes);
-        return $company;
+        $customer->update($attributes);
+        return $customer;
     }
 }
