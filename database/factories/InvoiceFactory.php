@@ -15,10 +15,11 @@ class InvoiceFactory extends Factory
     {
         return [
             'uuid' => $this->faker->uuid(),
-            'order_no' => $this->faker->randomNumber(3),
-            'order_date' => $this->faker->date(),
+            'invoice_no' => $this->faker->randomNumber(3),
+            'due_date' => $this->faker->date(),
             'company_id' => $this->faker->numberBetween(1,10),
-            'invoice_id' => $this->faker->numberBetween(1,10),
+            'customer_id' => $this->faker->numberBetween(1,10),
+            'total_amount' => $this->faker->numberBetween(1000,10000),
             'status' => $this->faker->numberBetween(1,0),
         ];
     }

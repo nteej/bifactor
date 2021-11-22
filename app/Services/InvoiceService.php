@@ -33,4 +33,24 @@ class InvoiceService
         $invoice = $this->repository->update($invoice, $request->only(Invoice::UpdatableAttributes));
         return $invoice;
     }
+
+    public function listByCustomer(int $customerId)
+    {
+        $invoices = $this->repository->customerInvoices($customerId);
+        return $invoices;
+    }
+
+    public function listByCompany(int $companyId)
+    {
+        $invoices = $this->repository->companyInvoices($companyId);
+        return $invoices;
+    }
+
+    public function openInvoice(Request $request)
+    {
+       return $this->repository->OpenInvoice($request->all());
+    }
+
+
+
 }

@@ -15,11 +15,13 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
-            $table->foreignId('order_id')->index();
+            $table->uuid('uuid')->unique();
             $table->foreignId('invoice_id')->index();
             $table->decimal('amount');
+            $table->enum('state',['credit','debit'])->default('debit');
+            $table->json('info');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -24,9 +24,9 @@ class CreateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|unique:companies,name',
             'contact' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|unique:companies,email',
             'info' => 'array',
             'debtor_limit' => 'required',
         ];

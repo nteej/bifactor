@@ -11,17 +11,33 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ *
+ */
 class CompanyController extends APIController
 {
+    /**
+     * @var CompanyService
+     */
     protected $service;
+    /**
+     * @var
+     */
     protected $model;
 
+    /**
+     * @param CompanyService $companyService
+     */
     public function __construct(CompanyService $companyService)
     {
         $this->service = $companyService;
     }
 
-    public function index(){
+    /**
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
         $this->model=$this->service->index();
         return $this->respondOk($this->model);
     }
@@ -31,7 +47,7 @@ class CompanyController extends APIController
      *
      * @return Response
      */
-    public function create()
+    public function create(): Response
     {
 
     }
@@ -40,9 +56,9 @@ class CompanyController extends APIController
      * Store a newly created resource in storage.
      *
      * @param CreateCompanyRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(CreateCompanyRequest $request)
+    public function store(CreateCompanyRequest $request): JsonResponse
     {
         $this->model=$this->service->create($request);
         return $this->respondOk(new CompanyResource ($this->model));
@@ -52,8 +68,8 @@ class CompanyController extends APIController
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Company $company
-     * @return Response
+     * @param Company $company
+     * @return JsonResponse
      */
     public function show(Company $company): JsonResponse
     {
@@ -63,8 +79,8 @@ class CompanyController extends APIController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Company $company
-     * @return Response
+     * @param Company $company
+     * @return void
      */
     public function edit(Company $company)
     {
@@ -74,8 +90,7 @@ class CompanyController extends APIController
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Company $company
+     * @param UpdateCompanyRequest $request
      * @return JsonResponse
      */
     public function update(UpdateCompanyRequest $request):JsonResponse
@@ -87,8 +102,8 @@ class CompanyController extends APIController
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Company $company
-     * @return Response
+     * @param Company $company
+     * @return JsonResponse
      */
     public function destroy(Company $company):JsonResponse
     {

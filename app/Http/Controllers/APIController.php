@@ -24,7 +24,7 @@ class APIController extends Controller
      * @param int $statusCode
      * @return JsonResponse
      */
-    protected function respondNotOk($data = [], int $statusCode = 400): JsonResponse
+    protected function respondNotOk(array $data = [], int $statusCode = 400): JsonResponse
     {
         return $this->respond($data, $statusCode);
     }

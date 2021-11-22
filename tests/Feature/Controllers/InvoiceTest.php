@@ -26,11 +26,12 @@ it('can fetch a invoice', function () {
     $response = $this->getJson("api/v1/invoices/{$invoice->uuid}");
     $data = [
         'uuid' => $invoice->uuid,
-        'reg_no' => $invoice->reg_no,
-        'name' => $invoice->name,
-        'address' => $invoice->address,
-        'br_no' => $invoice->br_no,
-        'debtor_limit' => $invoice->debtor_limit,
+        'invoice_no' => $invoice->invoice_no,
+        'due_date' => $invoice->due_date,
+        'customer_id' => $invoice->customer_id,
+        'company_id' => $invoice->company_id,
+        'total_amount' => $invoice->total_amount,
+        'info' => $invoice->info,
         'status' => $invoice->status
     ];
     $response->assertStatus(200)->assertJson($data);
