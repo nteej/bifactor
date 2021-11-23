@@ -34,7 +34,6 @@ it('can fetch a customer', function () {
         'name' => $customer->name,
         'email' => $customer->email,
         'info' => $customer->info,
-        'debtor_limit' => $customer->debtor_limit,
         'status' => $customer->status
     ];
     $response->assertStatus(200)->assertJson($data);

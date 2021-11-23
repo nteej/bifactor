@@ -49,6 +49,7 @@ class InvoiceService
      */
     public function update(Request $request): Invoice
     {
+        //dd($request->input('id'));
         $invoice = $this->repository->findOrFail($request->input('id'));
         $result = $this->repository->update($invoice, $request->only(Invoice::UpdatableAttributes));
         return $result;

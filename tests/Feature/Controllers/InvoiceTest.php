@@ -31,7 +31,7 @@ it('can search invoice by Uuid', function () {
 });
 it('can fetch a invoice', function () {
     $invoice = Invoice::factory()->create();
-    $response = $this->getJson("api/v1/invoices/{$invoice->id}");
+    $response = $this->getJson("api/v1/invoices/{$invoice->uuid}");
     $data = [
         'uuid' => $invoice->uuid,
         'invoice_no' => $invoice->invoice_no,
@@ -48,15 +48,15 @@ it('can fetch a invoice', function () {
 it('can update a invoice', function () {
     $invoice = Invoice::factory()->create();
     $data = [
+        'id'=>1,
+        'invoice_no' => '1002',
         'due_date' => '2021-09-01',
         'customer_id' => 1,
         'company_id' => 1,
         'total_amount' => 1000,
-        'info' => array([
-
-        ]),
         'status' => 1
     ];
+    //dd($invoice->id);
     $response = $this->putJson("api/v1/invoices/{$invoice->id}", $data);
     $response->assertStatus(200)->assertJson($response->json());
     $this->assertDatabaseHas('invoices', $data);
