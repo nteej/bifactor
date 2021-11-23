@@ -21,7 +21,6 @@ class CustomerFactory extends Factory
             'info' => [
                 "address" => $this->faker->address()
             ],
-            'credit_limit' => $this->faker->numberBetween(1000, 100000),
             'status' => $this->faker->numberBetween(1, 0),
         ];
     }

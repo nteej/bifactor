@@ -19,7 +19,7 @@ class CreatePaymentsTable extends Migration
             $table->foreignId('invoice_id')->index();
             $table->decimal('amount');
             $table->enum('state',['credit','debit'])->default('debit');
-            $table->json('info');
+            $table->json('info')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

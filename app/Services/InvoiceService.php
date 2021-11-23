@@ -29,9 +29,9 @@ class InvoiceService
 
     public function update(Request $request): Invoice
     {
-        $invoice = $this->repository->findOrFail($request->id);
-        $invoice = $this->repository->update($invoice, $request->only(Invoice::UpdatableAttributes));
-        return $invoice;
+        $invoice = $this->repository->findOrFail($request->input('id'));
+        $result = $this->repository->update($invoice, $request->only(Invoice::UpdatableAttributes));
+        return $result;
     }
 
     public function listByCustomer(int $customerId)
@@ -48,9 +48,17 @@ class InvoiceService
 
     public function openInvoice(Request $request)
     {
-       return $this->repository->OpenInvoice($request->all());
+        return $this->repository->OpenInvoice($request->all());
     }
 
+    public function makePayment(Request $request)
+    {
+        return $this->repository->makePayment($request->all());
+    }
 
+    public function getInvoiceStatus(int $invoiceId)
+    {
+        return $this->repository->getInvoiceStatus($invoiceId);
+    }
 
 }

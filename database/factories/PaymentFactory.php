@@ -14,7 +14,14 @@ class PaymentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'uuid' => $this->faker->uuid(),
+            'invoice_id' => $this->faker->randomNumber(3),
+            'state' => $this->faker->randomElement(['credit','debit']),
+            'amount' => $this->faker->numberBetween(1000,10000),
+            'info' => [
+                "items" => $this->faker->sentence()
+            ],
+            'status' => $this->faker->numberBetween(1,0),
         ];
     }
 }

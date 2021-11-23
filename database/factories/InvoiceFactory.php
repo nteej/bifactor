@@ -20,6 +20,10 @@ class InvoiceFactory extends Factory
             'company_id' => $this->faker->numberBetween(1,10),
             'customer_id' => $this->faker->numberBetween(1,10),
             'total_amount' => $this->faker->numberBetween(1000,10000),
+            'factoring' => $this->faker->numberBetween(1,100),
+            'info' => [
+                "items" => $this->faker->sentence()
+            ],
             'status' => $this->faker->numberBetween(1,0),
         ];
     }

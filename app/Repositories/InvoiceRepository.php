@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Company;
 use App\Models\Invoice;
+use App\Models\Payment;
 
 /**
  *
@@ -28,7 +29,7 @@ class InvoiceRepository
      */
     public function index()
     {
-        return $this->model->with('company', 'customer')->paginate(10);
+        return $this->model->with('company', 'customer', 'payments')->paginate(10);
     }
 
     /**
@@ -37,7 +38,7 @@ class InvoiceRepository
      */
     public function findOrFail(int $id): Invoice
     {
-        return $this->model->findOrFail($id);
+        return $this->model->with('company', 'customer', 'payments')->findOrFail($id);
     }
 
     /**
@@ -115,6 +116,80 @@ class InvoiceRepository
             }
         }
         return $state;
+    }
+
+    public function getInvoiceStatus(int $invoiceId)
+    {
+        try {
+            $invoice = Invoice::find($invoiceId);
+            $paidAmount = Payment::creditPayments($invoiceId);
+            $receivedAmount = Payment::debitPayments($invoiceId);
+            $fee = ($invoice->factoring / 100) * $invoice->total_amount;
+            $factoring = (1 - $invoice->factoring / 100) * $invoice->total_amount;
+            $pay_due = $factoring - $paidAmount;
+            $receive_due = $invoice->total_amount - $receivedAmount;
+            $status = array(
+                'total' => intval($invoice->total_amount),
+                'fee' => $fee,
+                'factoring' => $factoring,
+                'pay_due' => $pay_due,
+                'receive_due' => $receive_due
+            );
+            return $status;
+        } catch (\Exception $ex) {
+            return $ex->getMessage();
+        }
+
+
+    }
+
+    public function makePayment(array $attributes)
+    {
+        $inv_id = $attributes['invoice_id'];
+        $invoice_status = $this->getInvoiceStatus($inv_id);
+        $invoice = Invoice::where('state' , 'open')->orWhere('state' , 'paid')->find($inv_id);
+        $payDue = $invoice_status['pay_due'];
+        $receiveDue = $invoice_status['receive_due'];
+        $payment = $attributes['amount'];
+        $invoiceState = 'paid';
+        $paymentState = 'debit';
+        $info = array();
+        if ($attributes['type'] == 1) {
+            $paymentState = 'credit';
+            if ($payment <= $payDue) {
+                $info = array(
+                    "comments" => $invoice_status
+                );
+            }
+        } else {
+            $info = array(
+                "comments" => $invoice_status
+            );
+
+        }
+        if ($receiveDue == 0 && $payDue == 0) {
+            $invoiceState = 'closed';
+        }
+        /*if ($invoice->total_amount < $payment) {
+            $invoice->update(['state' => $invoiceState]);
+
+        } elseif ($invoice->total_amount < $payment) {
+
+        }*/
+     //   dd($invoice);
+        if (isset($invoice)) {
+            $invoice->update(['state' => $invoiceState]);
+            $payment = Payment::create([
+                    'invoice_id' => $inv_id,
+                    'amount' => $payment,
+                    'state' => $paymentState,
+                    'info' => $info
+                ]
+            );
+            return $payment;
+        }
+
+
     }
 
 }

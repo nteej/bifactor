@@ -13,10 +13,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('me', [\App\Http\Controllers\AuthController::class, 'me']);
-    Route::prefix('v1')->group(function () {
+Route::prefix('v1')->group(function () {
+    Route::post('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+        Route::get('me', [\App\Http\Controllers\AuthController::class, 'me']);
+
         Route::resource('companies', \App\Http\Controllers\CompanyController::class)->except(['create', 'edit'])->parameters(
             ['companies' => 'company:uuid']
         );
@@ -27,7 +29,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('/customer', [\App\Http\Controllers\InvoiceController::class, 'listByCustomer']);
             Route::get('/company', [\App\Http\Controllers\InvoiceController::class, 'listByCompany']);
             Route::post('/process', [\App\Http\Controllers\InvoiceController::class, 'process']);
-            // Route::post('/credit', [\App\Http\Controllers\InvoiceController::class, 'creditSum']);
+            Route::post('/payment', [\App\Http\Controllers\InvoiceController::class, 'makePayment']);
+            Route::get('/status/{id}', [\App\Http\Controllers\InvoiceController::class, 'invoiceStatus']);
 
         });
 

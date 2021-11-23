@@ -14,6 +14,8 @@ class Invoice extends Model
 {
     use HasFactory, HasUuid, SoftDeletes;
 
+
+
     const UpdatableAttributes = ['invoice_no', 'due_date', 'customer_id', 'company_id', 'total_amount', 'info', 'state', 'status'];
     protected $guarded = [];
     protected $casts = [
@@ -69,4 +71,8 @@ class Invoice extends Model
         }
         return array("total_amount" => $q);
     }
+
+
+
+
 }

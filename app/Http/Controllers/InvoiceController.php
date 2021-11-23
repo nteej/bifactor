@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateInvoiceRequest;
 use App\Http\Requests\InvoiceByCompanyRequest;
 use App\Http\Requests\InvoiceByCustomerRequest;
+use App\Http\Requests\InvoicePaymentRequest;
 use App\Http\Requests\InvoiceProcessRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
@@ -46,17 +47,6 @@ class InvoiceController extends APIController
         $this->model = $this->service->index();
         return $this->respondOk($this->model);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -81,17 +71,6 @@ class InvoiceController extends APIController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Invoice $invoice
-     * @return Response
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param UpdateInvoiceRequest $request
@@ -109,11 +88,11 @@ class InvoiceController extends APIController
      * @param Invoice $invoice
      * @return JsonResponse
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(Invoice $invoice): JsonResponse
     {
         $invoice->delete();
-        $data=[
-            'message'=>'Invoice has been deleted.'
+        $data = [
+            'message' => 'Invoice has been deleted.'
         ];
         return $this->respondOk($data);
     }
@@ -124,19 +103,29 @@ class InvoiceController extends APIController
      */
     public function listByCustomer(InvoiceByCustomerRequest $request): JsonResponse
     {
-        $invoices   = $this->service->listByCustomer($request->customer_id);
+        $invoices = $this->service->listByCustomer($request->customer_id);
         return response()->json($invoices);
     }
 
     public function listByCompany(InvoiceByCompanyRequest $request): JsonResponse
     {
-        $invoices   = $this->service->listByCompany($request->company_id);
+        $invoices = $this->service->listByCompany($request->company_id);
         return response()->json($invoices);
     }
 
-    public function process(InvoiceProcessRequest $request){
-        $invoices   = $this->service->openInvoice($request);
+    public function process(InvoiceProcessRequest $request): JsonResponse
+    {
+        $invoices = $this->service->openInvoice($request);
         return response()->json($invoices);
     }
 
+    public function makePayment(InvoicePaymentRequest $request): JsonResponse
+    {
+        $invoices = $this->service->makePayment($request);
+        return response()->json($invoices);
+    }public function invoiceStatus(Request $request,$id): JsonResponse
+    {
+        $invoices = $this->service->getInvoiceStatus($id);
+        return response()->json($invoices);
+    }
 }

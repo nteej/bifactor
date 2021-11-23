@@ -9,16 +9,16 @@ it('can create a factoring order', function () {
     $attributes = FcOrder::factory()->raw();
     $response = $this->postJson('api/v1/fcOrders', $attributes);
     $response->assertStatus(200)->assertJson($response->json());
-});
+})->skip('Will be used in future developments.');
 it('create new factoring order with Uuid', function () {
     $company = FcOrder::factory()->create();
     $this->assertNotEmpty($company->uuid);
-});
+})->skip('Will be used in future developments.');
 it('can search factoring order by Uuid', function () {
     $company = FcOrder::factory()->create();
     $foundCompany = FcOrder::findByUuid($company->uuid);
     $this->assertNotNull($foundCompany);
-});
+})->skip('Will be used in future developments.');
 it('can fetch a factoring order', function () {
     $company = FcOrder::factory()->create();
     $response = $this->getJson("api/v1/fcOrders/{$company->uuid}");
@@ -31,7 +31,7 @@ it('can fetch a factoring order', function () {
         'status' => $company->status,
     ];
     $response->assertStatus(200)->assertJson($data);
-});
+})->skip('Will be used in future developments.');
 
 it('can update a factoring order', function () {
     $company = FcOrder::factory()->create();
@@ -45,11 +45,11 @@ it('can update a factoring order', function () {
     $response = $this->putJson("api/v1/fcOrders/{$company->uuid}", $data);
     $response->assertStatus(200)->assertJson($response->json());
     $this->assertDatabaseHas('fc_orders', $data);
-});
+})->skip('Will be used in future developments.');
 
 it('can delete a factoring order', function () {
     $company = FcOrder::factory()->create();
     $response = $this->deleteJson("api/v1/fcOrders/{$company->uuid}");
 
     $response->assertStatus(200)->assertJson($response->json());
-})->group('delete');
+})->group('delete')->skip('Will be used in future developments.');

@@ -20,7 +20,6 @@ class CreateCustomersTable extends Migration
             $table->string('contact');
             $table->string('email')->unique();
             $table->json('info')->nullable();
-            $table->decimal('credit_limit',10,2);
             $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

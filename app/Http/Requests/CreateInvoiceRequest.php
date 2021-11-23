@@ -29,6 +29,7 @@ class CreateInvoiceRequest extends FormRequest
             'customer_id' => 'required',
             'company_id' => 'required',
             'total_amount' => 'required',
+            'factoring' => 'required',
             'info' => 'array'
         ];
     }

@@ -1,7 +1,15 @@
 <?php
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Invoice;
+use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    Sanctum::actingAs($this->user);
+});
 it('can create new invoice', function () {
     $attributes = Invoice::factory()->raw();
     $response = $this->postJson('api/v1/invoices', $attributes);
@@ -23,7 +31,7 @@ it('can search invoice by Uuid', function () {
 });
 it('can fetch a invoice', function () {
     $invoice = Invoice::factory()->create();
-    $response = $this->getJson("api/v1/invoices/{$invoice->uuid}");
+    $response = $this->getJson("api/v1/invoices/{$invoice->id}");
     $data = [
         'uuid' => $invoice->uuid,
         'invoice_no' => $invoice->invoice_no,
@@ -40,14 +48,16 @@ it('can fetch a invoice', function () {
 it('can update a invoice', function () {
     $invoice = Invoice::factory()->create();
     $data = [
-        'reg_no' => '1234',
-        'name' => 'Test Invoice',
-        'address' => 'Test Address',
-        'br_no' =>'3456y',
-        'debtor_limit' => 1200,
-        'status' =>0,
+        'due_date' => '2021-09-01',
+        'customer_id' => 1,
+        'company_id' => 1,
+        'total_amount' => 1000,
+        'info' => array([
+
+        ]),
+        'status' => 1
     ];
-    $response = $this->putJson("api/v1/invoices/{$invoice->uuid}", $data);
+    $response = $this->putJson("api/v1/invoices/{$invoice->id}", $data);
     $response->assertStatus(200)->assertJson($response->json());
     $this->assertDatabaseHas('invoices', $data);
 });
@@ -58,3 +68,19 @@ it('can delete a invoice', function () {
 
     $response->assertStatus(200)->assertJson($response->json());
 })->group('delete');
+
+
+it('can make payment for an invoice', function () {
+    $invoice = Invoice::factory()->create();
+    $data = [
+        'amount' => 1000,
+        'invoice_id' => $invoice->id,
+        'type' => 1,
+        'info' => $invoice->toArray()
+    ];
+    $response = $this->postJson("api/v1/invoice/payment", $data);
+    $response->assertStatus(200)->assertJson($response->json());
+});
+
+
+

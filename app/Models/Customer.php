@@ -11,7 +11,7 @@ class Customer extends Model
 {
     use HasFactory, HasUuid, SoftDeletes;
 
-    const UpdatableAttributes = ['name', 'contact', 'email', 'info','credit_limit'];
+    const UpdatableAttributes = ['name', 'contact', 'email', 'info'];
     protected $guarded = [];
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s', 'updated_at' => 'datetime:Y-m-d H:i:s',

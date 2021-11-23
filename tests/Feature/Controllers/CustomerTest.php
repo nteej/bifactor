@@ -1,9 +1,16 @@
 <?php
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Customer;
+use \Laravel\Sanctum\Sanctum;
+use App\Models\User;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    Sanctum::actingAs($this->user);
+});
 it('can create a customer', function () {
     $attributes = Customer::factory()->raw();
     $response = $this->postJson('api/v1/customers', $attributes);

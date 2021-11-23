@@ -18,12 +18,13 @@ class CreateInvoicesTable extends Migration
             $table->uuid('uuid')->unique();
             $table->integer('invoice_no');
             $table->date('due_date');
-            $table->foreignId('debtor_id')->index();
-            $table->foreignId('invoice_id')->index();
+            $table->foreignId('customer_id')->index();
+            $table->foreignId('company_id')->index();
             $table->decimal('total_amount');
             $table->json('info')->nullable();
             $table->enum('state',['init','open','paid','closed','overdue','write-off'])->default('init');
             $table->boolean('status')->default(0);
+            $table->float('factoring')->default(10)->comment('Factoring ratio %:default 10%');
             $table->timestamps();
             $table->softDeletes();
         });

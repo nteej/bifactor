@@ -1,10 +1,16 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Company;
+use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    Sanctum::actingAs( $this->user);
+});
 it('does not allows to create a company without name', function () {
     $response = $this->postJson('/api/v1/companies', []);
     $response->assertStatus(422)->assertJson($response->json());

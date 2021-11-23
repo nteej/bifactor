@@ -2,32 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\LogoutRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+/**
+ *
+ */
+class AuthController extends APIController
 {
-    public function login(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid login details'
-            ], 401);
+        $inputs = $request->validated();
+        if (!auth('web')->attempt($inputs)) {
+            return $this->respondNotOk([
+                'error' => 'Login failed.',
+            ]);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        /** @var User $user */
+        $user = Auth::user();
+        $user->tokens()->delete();
+        $token = $user->createToken($user->name);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
+        return $this->respondOk([
+            'access_token' => $token->plainTextToken,
+            'user' => new UserResource($user),
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function me(Request $request)
     {
         return $request->user();
+    }
+
+    public function logout(LogoutRequest $request): JsonResponse
+    {
+        $request->user()->tokens()->delete();
+        return $this->respondOk([]);
     }
 }

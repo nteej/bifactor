@@ -27,8 +27,7 @@ class CreateCustomerRequest extends FormRequest
             'name' => 'required|unique:customers,name',
             'contact' => 'required|string',
             'email' => 'required|unique:customers,email',
-            'info' => 'array',
-            'credit_limit' => 'required',
+            'info' => 'array'
         ];
     }
 }
