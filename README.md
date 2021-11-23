@@ -29,6 +29,7 @@ This path included entire documentation regarding development
 
 ##Features
 * Invoice payments are tracking from company end & debtor end.
+ ex: debtor payments to factoring company & company payments to ex creditor against the invoice
 * Can be setup factoring ratio based on each invoice.
 
 
