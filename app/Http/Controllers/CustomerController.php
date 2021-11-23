@@ -82,7 +82,7 @@ class CustomerController extends APIController
      * Remove the specified resource from storage.
      *
      * @param Customer $customer
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy(Customer $customer): JsonResponse
     {

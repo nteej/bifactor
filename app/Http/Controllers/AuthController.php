@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends APIController
 {
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param LoginRequest $request
+     * @return JsonResponse
      */
-    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         $inputs = $request->validated();
         if (!auth('web')->attempt($inputs)) {

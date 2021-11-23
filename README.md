@@ -41,7 +41,6 @@ This path included entire documentation regarding development
 
 
 ##Installation
-
 ```
 $ git clone https://github.com/nteej/bifactor.git
 $ composer install
@@ -49,10 +48,29 @@ $ cp .env.example .env
 $ mysql -uroot -p
 $ nano .env
 $ php artisan migrate --seed
-$ $ php artisan vendor:publish --> select 0 option by just pressing enter
+$ php artisan vendor:publish --> select 0 option by just pressing enter
 $ php artisan key:generate
 $ php artisan serve
 
 Run Unit Testing
- ./vendor/bin/pest
+$ ./vendor/bin/pest
+
+Coverage report
+$ XDEBUG_MODE=coverage ./vendor/bin/pest --coverage
+ 
+ 
 ```
+##Postman Collection
+
+Please import this collection into postman & create environment variable {{url}}
+All URLs are token guarded.
+
+Login is essential to test api
+
+Default logins
+
+* Username: nteeje@gmail.com
+
+* password: password
+
+https://www.getpostman.com/collections/9d1e7307373763ce3662
