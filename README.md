@@ -23,66 +23,14 @@ invoices reaches the limit.
 BiFactor is the proposed solution for business requirement to extend current business flow into digital way.
 
 
-## Functional Requirement
+##Documentation
+This path included entire documentation regarding development
+```<project path>/docs/ ```
 
-####Invoice CRUD
-* Id
-* Invoice_No
-* Date
-* Debtor_id
-* Tax_amount
-* Total
-* Status
-#### Invoice Items CRUD
-* Id
-* invoice_id
-* Item name
-* Unit price
-* Line Tax
-* Line Total
-#### Company CRUD
-* Id
-* Reg_No
-* Name
-* Address
-* BR_No
-* Debtor Limit
-* status
-#### Factoring Request
-* Id
-* Request_No
-* Date
-* company_id
-* invoice_id
-* factor_amount(calculate based on company rule.ex:80%,90% of invoice total)
-* status
-#### Debtors
-* Id
-* Debtors_no
-* NIC
-* Name
-* Address
-* Contact no
-* status
-#### Debtor Payments
-* Id
-* invoice_no
-* payment
-* debtor_id
-*
+##Features
+* Invoice payments are tracking from company end & debtor end.
+* Can be setup factoring ratio based on each invoice.
 
-#### User CRUD(Staff,Creditor & Debtor)
-* Id
-* email
-* password
-* role
-
-
-
-## Features
-Create Company
-Create Invoice
-Set Debtor limit
 
 ## Todo
 
@@ -92,5 +40,19 @@ Set Debtor limit
 * Factor history analyze
 
 
-####Commands Used in Laravel
+##Installation
 
+```
+$ git clone https://github.com/nteej/bifactor.git
+$ composer install
+$ cp .env.example .env
+$ mysql -uroot -p
+$ nano .env
+$ php artisan migrate --seed
+$ $ php artisan vendor:publish --> select 0 option by just pressing enter
+$ php artisan key:generate
+$ php artisan serve
+
+Run Unit Testing
+ ./vendor/bin/pest
+```

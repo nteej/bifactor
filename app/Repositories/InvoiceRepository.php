@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Company;
 use App\Models\Invoice;
 use App\Models\Payment;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  *
@@ -25,9 +26,9 @@ class InvoiceRepository
     }
 
     /**
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
-    public function index()
+    public function index(): LengthAwarePaginator
     {
         return $this->model->with('company', 'customer', 'payments')->paginate(10);
     }
@@ -86,7 +87,7 @@ class InvoiceRepository
 
     /**
      * @param array $attributes
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function processInvoices(array $attributes)
     {
@@ -118,6 +119,10 @@ class InvoiceRepository
         return $state;
     }
 
+    /**
+     * @param int $invoiceId
+     * @return array|string
+     */
     public function getInvoiceStatus(int $invoiceId)
     {
         try {
@@ -143,6 +148,9 @@ class InvoiceRepository
 
     }
 
+    /** @TODO
+     * @param array $attributes
+     */
     public function makePayment(array $attributes)
     {
         $inv_id = $attributes['invoice_id'];
@@ -161,22 +169,12 @@ class InvoiceRepository
                     "comments" => $invoice_status
                 );
             }
-        } else {
-            $info = array(
-                "comments" => $invoice_status
-            );
-
         }
+        //Close invoice if total when receivables & paybles  become 0.
+        //If invoice is closed total accountability & processable almost finished
         if ($receiveDue == 0 && $payDue == 0) {
             $invoiceState = 'closed';
         }
-        /*if ($invoice->total_amount < $payment) {
-            $invoice->update(['state' => $invoiceState]);
-
-        } elseif ($invoice->total_amount < $payment) {
-
-        }*/
-     //   dd($invoice);
         if (isset($invoice)) {
             $invoice->update(['state' => $invoiceState]);
             $payment = Payment::create([
@@ -188,8 +186,5 @@ class InvoiceRepository
             );
             return $payment;
         }
-
-
     }
-
 }

@@ -8,7 +8,6 @@ use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Services\CustomerService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**

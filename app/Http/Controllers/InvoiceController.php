@@ -13,7 +13,6 @@ use App\Models\Invoice;
 use App\Services\InvoiceService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  *
@@ -47,6 +46,7 @@ class InvoiceController extends APIController
         $this->model = $this->service->index();
         return $this->respondOk($this->model);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -123,7 +123,9 @@ class InvoiceController extends APIController
     {
         $invoices = $this->service->makePayment($request);
         return response()->json($invoices);
-    }public function invoiceStatus(Request $request,$id): JsonResponse
+    }
+
+    public function invoiceStatus(Request $request, $id): JsonResponse
     {
         $invoices = $this->service->getInvoiceStatus($id);
         return response()->json($invoices);

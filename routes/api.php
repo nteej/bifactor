@@ -25,6 +25,11 @@ Route::prefix('v1')->group(function () {
         Route::resource('invoices', \App\Http\Controllers\InvoiceController::class)->except(['create', 'edit'])->parameters(
             ['invoices' => 'invoice:uuid']
         );
+
+        Route::resource('customers', \App\Http\Controllers\CustomerController::class)->except(['create', 'edit'])->parameters(
+            ['customers' => 'customer:uuid']
+        );
+
         Route::group(['prefix' => 'invoice'], function () {
             Route::get('/customer', [\App\Http\Controllers\InvoiceController::class, 'listByCustomer']);
             Route::get('/company', [\App\Http\Controllers\InvoiceController::class, 'listByCompany']);
@@ -32,17 +37,6 @@ Route::prefix('v1')->group(function () {
             Route::post('/payment', [\App\Http\Controllers\InvoiceController::class, 'makePayment']);
             Route::get('/status/{id}', [\App\Http\Controllers\InvoiceController::class, 'invoiceStatus']);
 
-        });
-
-        Route::resource('fcOrders', \App\Http\Controllers\FcOrderController::class)->except(['create', 'edit'])->parameters(
-            ['fcOrders' => 'fcOrder:uuid']
-        );
-        Route::resource('customers', \App\Http\Controllers\CustomerController::class)->except(['create', 'edit'])->parameters(
-            ['customers' => 'customer:uuid']
-        );
-
-        Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-            return $request->user();
         });
     });
 });

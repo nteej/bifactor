@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
- *
+ *Authentication handler
  */
 class AuthController extends APIController
 {

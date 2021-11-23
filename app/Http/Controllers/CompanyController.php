@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Requests\CreateCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Services\CompanyService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
@@ -38,18 +37,8 @@ class CompanyController extends APIController
      */
     public function index(): JsonResponse
     {
-        $this->model=$this->service->index();
+        $this->model = $this->service->index();
         return $this->respondOk($this->model);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create(): Response
-    {
-
     }
 
     /**
@@ -60,7 +49,7 @@ class CompanyController extends APIController
      */
     public function store(CreateCompanyRequest $request): JsonResponse
     {
-        $this->model=$this->service->create($request);
+        $this->model = $this->service->create($request);
         return $this->respondOk(new CompanyResource ($this->model));
 
     }
@@ -76,16 +65,6 @@ class CompanyController extends APIController
         return $this->respondOk(new CompanyResource($company));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Company $company
-     * @return void
-     */
-    public function edit(Company $company)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -93,9 +72,9 @@ class CompanyController extends APIController
      * @param UpdateCompanyRequest $request
      * @return JsonResponse
      */
-    public function update(UpdateCompanyRequest $request):JsonResponse
+    public function update(UpdateCompanyRequest $request): JsonResponse
     {
-        $this->model=$this->service->update($request);
+        $this->model = $this->service->update($request);
         return $this->respondOk((new CompanyResource($this->model)));
     }
 
@@ -105,12 +84,12 @@ class CompanyController extends APIController
      * @param Company $company
      * @return JsonResponse
      */
-    public function destroy(Company $company):JsonResponse
+    public function destroy(Company $company): JsonResponse
     {
         //
         $company->delete();
-        $data=[
-            'message'=>'Company has been deleted.'
+        $data = [
+            'message' => 'Company has been deleted.'
         ];
         return $this->respondOk($data);
     }
