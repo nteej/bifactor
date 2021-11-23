@@ -14,7 +14,7 @@ beforeEach(function () {
 it('does not allows to create a company without name', function () {
     $response = $this->postJson('/api/v1/companies', []);
     $response->assertStatus(422)->assertJson($response->json());
-})->skip('Validation check stop temporarily');
+});
 it('can create a company', function () {
     $attributes = Company::factory()->raw();
     $response = $this->postJson('api/v1/companies', $attributes);

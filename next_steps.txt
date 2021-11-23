@@ -1,0 +1,9 @@
+Based on the given requirement this solution proposed & bellow mentioned capabilities will be implement in future.
+
+Features
+Invoice wise factoring ratio.(based on invoice total)
+Introduce factoring processing priorities.
+Direct access for Creditors to add there invoices into central system
+Factoring order sheet per debtor which will assign for a particular employee who will be acting as account manager,
+Identify key account of the customers.
+Customer history based factoring packages which make more convenient for clients
