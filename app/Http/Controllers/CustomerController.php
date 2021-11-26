@@ -33,7 +33,25 @@ class CustomerController extends Controller
     }
 
     /**
-     * @return JsonResponse
+     * @OA\Get(
+     *      path="/customers",
+     *      tags={"Customer(Debitors)"},
+     *      summary="Get list of projects",
+     *      description="Returns list of projects",
+     *      security={ * {"sanctum": {}}, * },
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
      */
     public function index(): JsonResponse
     {

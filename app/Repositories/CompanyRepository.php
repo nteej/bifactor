@@ -13,7 +13,7 @@ class CompanyRepository
      */
     public function index(): LengthAwarePaginator
     {
-        dd(Company::all());
+
         return Company::paginate(10);
     }
 

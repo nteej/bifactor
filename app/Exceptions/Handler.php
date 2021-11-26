@@ -145,17 +145,6 @@ class Handler extends ExceptionHandler
                     500
                 );
             }
-            // if ($exception instanceof HttpResponseException) {
-            //     // $exception = $exception->getResponse();
-            //     return $this->apiResponse(
-            //         [
-            //             'success' => false,
-            //             'message' => "There was some internal error",
-            //             'exception'  => $exception
-            //         ],
-            //         500
-            //     );
-            // }
             if ($exception instanceof \Error) {
                 // $exception = $exception->getResponse();
                 return $this->apiResponse(
