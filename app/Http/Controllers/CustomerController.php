@@ -13,7 +13,7 @@ use Illuminate\Http\Response;
 /**
  *
  */
-class CustomerController extends APIController
+class CustomerController extends Controller
 {
     /**
      * @var CustomerService

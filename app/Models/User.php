@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Traits\HasUuid;
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

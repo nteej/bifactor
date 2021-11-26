@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Company;
 use App\Repositories\CompanyRepository;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  *
@@ -25,9 +26,9 @@ class CompanyService
     }
 
     /**
-     * @return mixed
+     * @return LengthAwarePaginator
      */
-    public function index()
+    public function index():LengthAwarePaginator
     {
         $company = $this->repository->index();
         return $company;

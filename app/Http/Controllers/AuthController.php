@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 /**
  *Authentication handler
  */
-class AuthController extends APIController
+class AuthController extends Controller
 {
     /**
      * @param LoginRequest $request
@@ -23,9 +23,7 @@ class AuthController extends APIController
     {
         $inputs = $request->validated();
         if (!auth('web')->attempt($inputs)) {
-            return $this->respondNotOk([
-                'error' => 'Login failed.',
-            ]);
+            return $this->respondUnAuthorized('Invalid credentials.Please try again with correct credentials.');
         }
 
         /** @var User $user */
@@ -33,10 +31,10 @@ class AuthController extends APIController
         $user->tokens()->delete();
         $token = $user->createToken($user->name);
 
-        return $this->respondOk([
+        return $this->respondWithResource([
             'access_token' => $token->plainTextToken,
             'user' => new UserResource($user),
-        ]);
+        ],'User login successful.');
     }
 
     /**

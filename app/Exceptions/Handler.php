@@ -2,19 +2,22 @@
 
 namespace App\Exceptions;
 
-use App\Services\Traits\ApiResponseTrait;
+use App\Traits\ApiHandler;
+use App\Traits\ApiResponseTrait;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
-    use ApiResponseTrait;
+    use ApiHandler,ApiResponseTrait;
 
     /**
      * A list of the exception types that are not reported.
@@ -51,7 +54,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param \Throwable $exception
+     * @param Throwable $exception
      *
      * @return void
      *
@@ -74,16 +77,13 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable $exception
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
+     * @param Request $request
+     * @param Throwable $exception
+     * @return Response
+     * @throws Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $exception): Response
     {
-
         if ($request->expectsJson()) {
             if ($exception instanceof PostTooLargeException) {
                 return $this->apiResponse(
@@ -168,8 +168,6 @@ class Handler extends ExceptionHandler
                 );
             }
         }
-
-
         return parent::render($request, $exception);
     }
 

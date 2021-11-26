@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Traits;
+namespace App\Traits;
 
 use App\Http\Resources\Ghost\EmptyResource;
 use App\Http\Resources\Ghost\EmptyResourceCollection;
@@ -14,13 +14,13 @@ use Illuminate\Validation\ValidationException;
 trait ApiResponseTrait
 {
     /**
-     * @param JsonResource $resource
+     * @param mixed $resource
      * @param null $message
      * @param int $statusCode
      * @param array $headers
      * @return JsonResponse
      */
-    protected function respondWithResource(JsonResource $resource, $message = null, $statusCode = 200, $headers = [])
+    protected function respondWithResource($resource, $message = null, int $statusCode = 200,array $headers = []): JsonResponse
     {
         // https://laracasts.com/discuss/channels/laravel/pagination-data-missing-from-api-resource
 
@@ -42,9 +42,9 @@ trait ApiResponseTrait
     public function parseGivenData($data = [], $statusCode = 200, $headers = [])
     {
         $responseStructure = [
-            'success' => $data['success'],
+            'success' => $data['success']?? null,
             'message' => $data['message'] ?? null,
-            'result' => $data['result'] ?? null,
+            'data' => $data['result'] ?? null,
         ];
         if (isset($data['errors'])) {
             $responseStructure['errors'] = $data['errors'];
@@ -150,7 +150,7 @@ trait ApiResponseTrait
      *
      * @return JsonResponse
      */
-    protected function respondCreated($data)
+    protected function respondCreated($data): JsonResponse
     {
         return $this->apiResponse($data, 201);
     }
@@ -162,7 +162,7 @@ trait ApiResponseTrait
      *
      * @return JsonResponse
      */
-    protected function respondNoContent($message = 'No Content Found')
+    protected function respondNoContent(string $message = 'No Content Found'): JsonResponse
     {
         return $this->apiResponse(['success' => false, 'message' => $message], 200);
     }
@@ -174,7 +174,7 @@ trait ApiResponseTrait
      *
      * @return JsonResponse
      */
-    protected function respondNoContentResource($message = 'No Content Found')
+    protected function respondNoContentResource(string $message = 'No Content Found'): JsonResponse
     {
         return $this->respondWithResource(new EmptyResource([]), $message);
     }
@@ -186,7 +186,7 @@ trait ApiResponseTrait
      *
      * @return JsonResponse
      */
-    protected function respondNoContentResourceCollection($message = 'No Content Found')
+    protected function respondNoContentResourceCollection(string $message = 'No Content Found'): JsonResponse
     {
         return $this->respondWithResourceCollection(new EmptyResourceCollection([]), $message);
     }
@@ -198,7 +198,7 @@ trait ApiResponseTrait
      *
      * @return JsonResponse
      */
-    protected function respondUnAuthorized($message = 'Unauthorized')
+    protected function respondUnAuthorized($message = 'Unauthorized'): JsonResponse
     {
         return $this->respondError($message, 401);
     }

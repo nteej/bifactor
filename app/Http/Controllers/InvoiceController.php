@@ -11,16 +11,15 @@ use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use App\Services\InvoiceService;
-use App\Services\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
  *
  */
-class InvoiceController extends APIController
+class InvoiceController extends Controller
 {
-    use ApiResponseTrait;
+
     /**
      * @var InvoiceService
      */
@@ -47,9 +46,7 @@ class InvoiceController extends APIController
     {
         $this->model = $this->service->index();
         return $this->respondOk(new InvoiceResource ($this->model));
-        /*return responder()->success($this->model, function ($product) {
-            return ['name' => $product->id];
-        })->respond();*/
+
     }
 
     /**

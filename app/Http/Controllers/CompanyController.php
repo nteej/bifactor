@@ -8,11 +8,17 @@ use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Services\CompanyService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
+ * Company Controller here to manage all activities of invoice 1st owner(the creditor)
+ *
+ * @package   CreditOwner
+ * @author    Nalin Tharanga <nteeje@gmail.com>
+ * @version   1.0.1
  *
  */
-class CompanyController extends APIController
+class CompanyController extends Controller
 {
     /**
      * @var CompanyService
@@ -36,8 +42,14 @@ class CompanyController extends APIController
      */
     public function index(): JsonResponse
     {
-        $this->model = $this->service->index();
-        return $this->respondOk($this->model);
+
+        try {
+            $this->model = $this->service->index();
+            dd($this->model);
+            return $this->respondWithResource($this->model, '');
+        } catch (\Exception $e) {
+            return $this->failure($e->getMessage());
+        }
     }
 
     /**
@@ -83,13 +95,25 @@ class CompanyController extends APIController
      * @param Company $company
      * @return JsonResponse
      */
-    public function destroy(Company $company): JsonResponse
+    public function destroy(Request $request, Company $company): JsonResponse
     {
         //
-        $company->delete();
-        $data = [
-            'message' => 'Company has been deleted.'
-        ];
-        return $this->respondOk($data);
+        $company = $company->delete();
+        try {
+            $data = [
+                'success' => true,
+                'message' => 'Company has been deleted.',
+                'result' => $company
+            ];
+        } catch (\Exception $exception) {
+            $data = [
+                'success' => false,
+                'message' => $exception->getMessage(),
+                'result' => '',
+                'error_code' => $exception->getCode()
+            ];
+        }
+
+        return $this->respondOk($data,);
     }
 }

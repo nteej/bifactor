@@ -3,34 +3,46 @@
 namespace App\Repositories;
 
 use App\Models\Company;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class CompanyRepository
 {
-    private $model;
-
-    public function __construct()
+    /**
+     * @return LengthAwarePaginator
+     */
+    public function index(): LengthAwarePaginator
     {
-        $this->model = new Company();
+        dd(Company::all());
+        return Company::paginate(10);
     }
 
-    public function index()
-    {
-        return $this->model->paginate(10);
-    }
-
-    public function findOrFail(int $id): Company
-    {
-        return $this->model->findOrFail($id);
-    }
-
+    /**
+     * @param array $attributes
+     * @return Company
+     */
     public function store(array $attributes): Company
     {
-        return $this->model->create($attributes);
+        return Company::create($attributes);
     }
 
+    /**
+     * @param Company $company
+     * @param array $attributes
+     * @return Company
+     */
     public function update(Company $company, array $attributes): Company
     {
         $company->update($attributes);
         return $company;
+    }
+
+    /**
+     * @param int $id
+     * @return Company
+     */
+    public function findOrFail(int $id): Company
+    {
+        return Company::findOrFail($id);
     }
 }
