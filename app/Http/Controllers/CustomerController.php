@@ -8,7 +8,6 @@ use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use App\Services\CustomerService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 /**
  *
@@ -25,20 +24,151 @@ class CustomerController extends Controller
     protected $model;
 
     /**
-     * @param CustomerService $companyService
+     * @param CustomerService $customerService
      */
-    public function __construct(CustomerService $companyService)
+    public function __construct(CustomerService $customerService)
     {
-        $this->service = $companyService;
+        $this->service = $customerService;
     }
 
     /**
      * @OA\Get(
      *      path="/customers",
      *      tags={"Customer(Debitors)"},
-     *      summary="Get list of projects",
-     *      description="Returns list of projects",
+     *      summary="Get list of customers",
+     *      description="Returns list of customers",
      *      security={ * {"sanctum": {}}, * },
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
+     */
+    public function index(): JsonResponse
+    {
+        try {
+            $this->model = $this->service->index();
+            return $this->respondWithResource($this->model);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
+    }
+    /**
+     * @OA\Post(
+     *      path="/customers",
+     *      tags={"Customer(Debitors)"},
+     *      summary="Create a Customer",
+     *      description="Create new Customer",
+     *      security={ * {"sanctum": {}}, * },
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/StoreCustomerRequest")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Customer created Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Customer created Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * )
+     */
+
+    public function store(CreateCustomerRequest $request): JsonResponse
+    {
+        try {
+            $this->model = $this->service->create($request);
+            return $this->respondWithResource(new CustomerResource ($this->model));
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
+
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/customers/{uuid}",
+     *      tags={"Customer(Debitors)"},
+     *      summary="Get customer information",
+     *      description="Returns customer data",
+     *      security={ * {"sanctum": {}}, * },
+     *      @OA\Parameter(
+     *          name="uuid",
+     *          description="Comapany uuid",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Customer")
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
+     */
+    public function show(Customer $customer): JsonResponse
+    {
+        try {
+            return $this->respondOk(new CustomerResource($customer));
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
+    }
+
+
+    /**
+     * @OA\Put(
+     *      path="/customers/{uuid}",
+     *      tags={"Customer(Debitors)"},
+     *      summary="Update selected customer",
+     *      description="Update selected customer",
+     *      security={ * {"sanctum": {}}, * },
+     *      @OA\Parameter(
+     *          name="uuid",
+     *          description="Customer id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateCustomerRequest")
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation"
@@ -53,62 +183,57 @@ class CustomerController extends Controller
      *      )
      *     )
      */
-    public function index(): JsonResponse
-    {
-        $this->model = $this->service->index();
-        return $this->respondOk($this->model);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param CreateCustomerRequest $request
-     * @return JsonResponse
-     */
-    public function store(CreateCustomerRequest $request): JsonResponse
-    {
-        $this->model = $this->service->create($request);
-        return $this->respondOk(new CustomerResource ($this->model));
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Customer $customer
-     * @return JsonResponse
-     */
-    public function show(Customer $customer): JsonResponse
-    {
-        return $this->respondOk(new CustomerResource($customer));
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param UpdateCustomerRequest $request
-     * @return JsonResponse
-     */
     public function update(UpdateCustomerRequest $request): JsonResponse
     {
-        $this->model = $this->service->update($request);
-        return $this->respondOk((new CustomerResource($this->model)));
+        try {
+            $this->model = $this->service->update($request);
+            return $this->respondOk((new CustomerResource($this->model)));
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param Customer $customer
-     * @return JsonResponse
+     * @OA\Delete (
+     *      path="/customers/{uuid}",
+     *      tags={"Customer(Debitors)"},
+     *      summary="Delete selected customer",
+     *      description="Delete selected customer",
+     *      security={ * {"sanctum": {}}, * },
+     *      @OA\Parameter(
+     *          name="uuid",
+     *          description="Comapany uuid",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
      */
     public function destroy(Customer $customer): JsonResponse
     {
         //
-        $customer->delete();
-        $data = [
-            'message' => 'Customer has been deleted.'
-        ];
-        return $this->respondOk($data);
+        try {
+            $customer->delete();
+            $data = [
+                'message' => 'Customer has been deleted.'
+            ];
+            return $this->respondOk($data);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 }

@@ -38,14 +38,35 @@ class InvoiceController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return JsonResponse
+     * @OA\Get(
+     *      path="/customers",
+     *      tags={"Customer(Debitors)"},
+     *      summary="Get list of customers",
+     *      description="Returns list of customers",
+     *      security={ * {"sanctum": {}}, * },
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
      */
     public function index(): JsonResponse
     {
-        $this->model = $this->service->index();
-        return $this->respondOk(new InvoiceResource ($this->model));
+        try {
+            $this->model = $this->service->index();
+            return $this->respondSuccess(new InvoiceResource ($this->model));
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
 
     }
 
@@ -57,8 +78,12 @@ class InvoiceController extends Controller
      */
     public function store(CreateInvoiceRequest $request): JsonResponse
     {
-        $this->model = $this->service->create($request);
-        return $this->respondOk(new InvoiceResource ($this->model));
+        try {
+            $this->model = $this->service->create($request);
+            return $this->respondSuccess(new InvoiceResource ($this->model));
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     /**
@@ -69,7 +94,11 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice): JsonResponse
     {
-        return $this->respondOk(new InvoiceResource($invoice));
+        try {
+            return $this->respondOk(new InvoiceResource($invoice));
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     /**
@@ -80,8 +109,12 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request): JsonResponse
     {
-        $this->model = $this->service->update($request);
-        return $this->respondOk((new InvoiceResource($this->model)));
+        try {
+            $this->model = $this->service->update($request);
+            return $this->respondOk((new InvoiceResource($this->model)));
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     /**
@@ -92,11 +125,15 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice): JsonResponse
     {
-        $invoice->delete();
-        $data = [
-            'message' => 'Invoice has been deleted.'
-        ];
-        return $this->respondOk($data);
+        try {
+            $invoice->delete();
+            $data = [
+                'message' => 'Invoice has been deleted.'
+            ];
+            return $this->respondOk($data);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     /**
@@ -105,31 +142,51 @@ class InvoiceController extends Controller
      */
     public function listByCustomer(InvoiceByCustomerRequest $request): JsonResponse
     {
-        $invoices = $this->service->listByCustomer($request->customer_id);
-        return response()->json($invoices);
+        try {
+            $invoices = $this->service->listByCustomer($request->customer_id);
+            return response()->json($invoices);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     public function listByCompany(InvoiceByCompanyRequest $request): JsonResponse
     {
-        $invoices = $this->service->listByCompany($request->company_id);
-        return response()->json($invoices);
+        try {
+            $invoices = $this->service->listByCompany($request->company_id);
+            return response()->json($invoices);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     public function process(InvoiceProcessRequest $request): JsonResponse
     {
-        $invoices = $this->service->openInvoice($request);
-        return response()->json($invoices);
+        try {
+            $invoices = $this->service->openInvoice($request);
+            return response()->json($invoices);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     public function makePayment(InvoicePaymentRequest $request): JsonResponse
     {
-        $invoices = $this->service->makePayment($request);
-        return response()->json($invoices);
+        try {
+            $invoices = $this->service->makePayment($request);
+            return response()->json($invoices);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 
     public function invoiceStatus(Request $request, $id): JsonResponse
     {
-        $invoices = $this->service->getInvoiceStatus($id);
-        return response()->json($invoices);
+        try {
+            $invoices = $this->service->getInvoiceStatus($id);
+            return response()->json($invoices);
+        } catch (\Exception $e) {
+            return $this->respondError($e->getMessage());
+        }
     }
 }

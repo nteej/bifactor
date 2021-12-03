@@ -17,7 +17,7 @@ class Company extends Model
     /**
      *
      */
-    const UpdatableAttributes = ['name', 'contact', 'email', 'info', 'debtor_limit'];
+    const UpdatableAttributes = ['name', 'contact', 'email', 'info', 'debtor_limit','status'];
     /**
      * @var array
      */

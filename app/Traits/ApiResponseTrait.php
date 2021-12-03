@@ -44,7 +44,7 @@ trait ApiResponseTrait
         $responseStructure = [
             'success' => $data['success']?? null,
             'message' => $data['message'] ?? null,
-            'data' => $data['result'] ?? null,
+            'result' => $data['result'] ?? null,
         ];
         if (isset($data['errors'])) {
             $responseStructure['errors'] = $data['errors'];

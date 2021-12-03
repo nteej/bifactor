@@ -35,12 +35,13 @@ class CompanyController extends Controller
      * @OA\Get(
      *      path="/companies",
      *      tags={"Company(Creditors)"},
-     *      summary="Get list of projects",
-     *      description="Returns list of projects",
+     *      summary="Get list of copanies",
+     *      description="Returns list of copanies",
      *      security={ * {"sanctum": {}}, * },
      *      @OA\Response(
      *          response=200,
-     *          description="Successful operation"
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CompanyResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -67,22 +68,31 @@ class CompanyController extends Controller
      * @OA\Post(
      *      path="/companies",
      *      tags={"Company(Creditors)"},
-     *      summary="Get list of projects",
-     *      description="Returns list of projects",
+     *      summary="Create a Company",
+     *      description="Create new Company",
      *      security={ * {"sanctum": {}}, * },
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation"
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/StoreCompanyRequest")
      *      ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *     )
+     *          response=201,
+     *          description="Company created Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Company created Successfully",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\JsonContent()
+     *       ),
+     *      @OA\Response(response=400, description="Bad request"),
+     *      @OA\Response(response=404, description="Resource Not Found"),
+     * )
      */
     public function store(CreateCompanyRequest $request): JsonResponse
     {
@@ -97,30 +107,24 @@ class CompanyController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/companies/{id}",
+     *      path="/companies/{uuid}",
      *      tags={"Company(Creditors)"},
      *      summary="Get company information",
      *      description="Returns company data",
+     *      security={ * {"sanctum": {}}, * },
      *      @OA\Parameter(
-     *          name="id",
-     *          description="Project id",
+     *          name="uuid",
+     *          description="Comapany uuid",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
-     *              type="integer"
+     *              type="string"
      *          )
      *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(
-     *       @OA\Property(property="success", type="boolean", example="false")
-     *        ),
-     *       @OA\Property(property="message", type="string", example="The given data was invalid.")
-     *        ),
-     *      @OA\Property(property="data", type="array", example="[]")
-     *        )
-     * )
+     *          @OA\JsonContent(ref="#/components/schemas/Company")
      *       ),
      *      @OA\Response(
      *          response=400,
@@ -134,7 +138,7 @@ class CompanyController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      )
-     * )
+     *    )
      */
     public function show(Company $company): JsonResponse
     {
@@ -148,11 +152,24 @@ class CompanyController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/companies",
+     *      path="/companies/{uuid}",
      *      tags={"Company(Creditors)"},
-     *      summary="Get list of projects",
-     *      description="Returns list of projects",
+     *      summary="Update selected company",
+     *      description="Update selected company",
      *      security={ * {"sanctum": {}}, * },
+     *      @OA\Parameter(
+     *          name="uuid",
+     *          description="Company id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/UpdateCompanyRequest")
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation"
@@ -179,11 +196,20 @@ class CompanyController extends Controller
 
     /**
      * @OA\Delete (
-     *      path="/companies",
+     *      path="/companies/{uuid}",
      *      tags={"Company(Creditors)"},
-     *      summary="Get list of projects",
-     *      description="Returns list of projects",
+     *      summary="Delete selected company",
+     *      description="Delete selected company",
      *      security={ * {"sanctum": {}}, * },
+     *      @OA\Parameter(
+     *          name="uuid",
+     *          description="Comapany uuid",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation"
