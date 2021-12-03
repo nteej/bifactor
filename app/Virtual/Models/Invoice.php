@@ -1,16 +1,18 @@
 <?php
 
 namespace App\Virtual\Models;
+use phpDocumentor\Reflection\Types\Boolean;
+
 /**
  * @OA\Schema(
- *     title="Customer",
- *     description="Customer model",
+ *     title="Invoice",
+ *     description="Invoice Model",
  *     @OA\Xml(
- *         name="Customer"
+ *         name="Invoice"
  *     )
  * )
  */
-class Customer
+class Invoice
 {
 
     /**
@@ -38,42 +40,49 @@ class Customer
 
     /**
      * @OA\Property(
-     *      title="Name",
-     *      description="Name of the new Customer",
-     *      example="Creditor name"
+     *      title="Invoice No"
      * )
      *
-     * @var string
+     * @var integer
      */
-    public $name;
+    public $invoice_no;
+    /**
+     * @OA\Property(
+     *      title="Due Date"
+     * )
+     *
+     * @var \Date
+     */
+    public $due_date;/**
+     * @OA\Property(
+     *      title="Customer Id"
+     * )
+     *
+     * @var integer
+     */
+    public $customer_id;/**
+     * @OA\Property(
+     *      title="Company Id"
+     * )
+     *
+     * @var integer
+     */
+    public $company_id;
 
     /**
      * @OA\Property(
-     *      title="Contact",
-     *      description="Contact of the new Customer",
-     *      example="This is new company's contact details"
+     *      title="Total Amount"
      * )
      *
-     * @var string
+     * @var \float
      */
-    public $contact;
-
-    /**
-     * @OA\Property(
-     *      title="Email",
-     *      description="Email Address of the new Customer",
-     *      example="This is new company's email address details"
-     * )
-     *
-     * @var string
-     */
-    public $email;
+    public $total_amount;
 
     /**
      * @OA\Property(
      *      title="Info",
      *      description="Additional Info",
-     *      example="'info':{'address':'colombo'}"
+     *      example="'info':{'item-1':340}"
      * )
      *
      * @var object

@@ -152,36 +152,19 @@
                 "tags": [
                     "Company(Creditors)"
                 ],
-                "summary": "Get list of projects",
-                "description": "Returns list of projects",
+                "summary": "Get list of copanies",
+                "description": "Returns list of copanies",
                 "operationId": "8af1177352a157e9228c00f023616d87",
                 "responses": {
                     "200": {
-                        "description": "Successful operation"
-                    },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Company(Creditors)"
-                ],
-                "summary": "Get list of projects",
-                "description": "Returns list of projects",
-                "operationId": "94d12edc32d2091b6d72452960e0dcdf",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CompanyResource"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -200,9 +183,132 @@
                 "tags": [
                     "Company(Creditors)"
                 ],
-                "summary": "Get list of projects",
-                "description": "Returns list of projects",
+                "summary": "Create a Company",
+                "description": "Create new Company",
                 "operationId": "dd2ae66c40ea62cd8f20d49bc08e4b21",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCompanyRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Company created Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Company created Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/companies/{uuid}": {
+            "get": {
+                "tags": [
+                    "Company(Creditors)"
+                ],
+                "summary": "Get company information",
+                "description": "Returns company data",
+                "operationId": "af1320f083a73f35e450de1ce3285887",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Comapany uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Company"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Company(Creditors)"
+                ],
+                "summary": "Update selected company",
+                "description": "Update selected company",
+                "operationId": "c5c6c9f3c961430f93f51a036545b636",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Company id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCompanyRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Successful operation"
@@ -224,9 +330,20 @@
                 "tags": [
                     "Company(Creditors)"
                 ],
-                "summary": "Get list of projects",
-                "description": "Returns list of projects",
-                "operationId": "dfdff6fe39a5a09d710d9289985eac7e",
+                "summary": "Delete selected company",
+                "description": "Delete selected company",
+                "operationId": "7db9f48e18745518bce6f56b087f44a5",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Comapany uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation"
@@ -245,22 +362,110 @@
                 ]
             }
         },
-        "/companies/{id}": {
+        "/customers": {
             "get": {
                 "tags": [
-                    "Company(Creditors)"
+                    "Customer(Debitors)"
                 ],
-                "summary": "Get company information",
-                "description": "Returns company data",
-                "operationId": "662432d4be675d549b84ca1bf7e56b8d",
+                "summary": "Get list of customers",
+                "description": "Returns list of customers",
+                "operationId": "30ce4124bc07a0d013b69974ff225a5c",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customer(Debitors)"
+                ],
+                "summary": "Create a Customer",
+                "description": "Create new Customer",
+                "operationId": "8350a1a36d2b5522ea4158253eff28a1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreCustomerRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Customer created Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Customer created Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/customers/{uuid}": {
+            "get": {
+                "tags": [
+                    "Customer(Debitors)"
+                ],
+                "summary": "Get customer information",
+                "description": "Returns customer data",
+                "operationId": "b5ca67befc05fc267f051faf8b381b6d",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "uuid",
                         "in": "path",
-                        "description": "Project id",
+                        "description": "Comapany uuid",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string"
                         }
                     }
                 ],
@@ -270,31 +475,125 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": "false"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Customer"
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
-                }
-            }
-        },
-        "/customers": {
-            "get": {
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
                 "tags": [
                     "Customer(Debitors)"
                 ],
-                "summary": "Get list of projects",
-                "description": "Returns list of projects",
-                "operationId": "30ce4124bc07a0d013b69974ff225a5c",
+                "summary": "Update selected customer",
+                "description": "Update selected customer",
+                "operationId": "0ba268edf27202cd434072c57efd7726",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCustomerRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Customer(Debitors)"
+                ],
+                "summary": "Delete selected customer",
+                "description": "Delete selected customer",
+                "operationId": "996c5b06674f83bcc89eea5cf8861f24",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Comapany uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/invoices": {
+            "get": {
+                "tags": [
+                    "Invoice(Creditor's)"
+                ],
+                "summary": "Get list of Invoices",
+                "operationId": "2918f8941342b3fb67e05747c84292d9",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InvoiceResource"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -312,15 +611,570 @@
         }
     },
     "components": {
-        "responses": {
-            "400": {
-                "description": "Bad Request"
+        "schemas": {
+            "Company": {
+                "title": "Company",
+                "description": "Company model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "title": "UUID",
+                        "description": "UUID",
+                        "type": "string",
+                        "example": "94f00347-6465-41e0-806e-801ddca16bda"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new Company",
+                        "type": "string",
+                        "example": "Creditor name"
+                    },
+                    "contact": {
+                        "title": "Contact",
+                        "description": "Contact of the new Company",
+                        "type": "string",
+                        "example": "This is new company's contact details"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email Address of the new Company",
+                        "type": "string",
+                        "example": "This is new company's email address details"
+                    },
+                    "info": {
+                        "title": "Info",
+                        "description": "Additional Info",
+                        "type": "object",
+                        "example": "'info':{'address':'colombo'}"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Is active or not",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "deleted_at": {
+                        "title": "Deleted at",
+                        "description": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Company"
+                }
             },
-            "401": {
-                "description": "Unauthenticated"
+            "Customer": {
+                "title": "Customer",
+                "description": "Customer model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "title": "UUID",
+                        "description": "UUID",
+                        "type": "string",
+                        "example": "94f00347-6465-41e0-806e-801ddca16bda"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new Customer",
+                        "type": "string",
+                        "example": "Creditor name"
+                    },
+                    "contact": {
+                        "title": "Contact",
+                        "description": "Contact of the new Customer",
+                        "type": "string",
+                        "example": "This is new company's contact details"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email Address of the new Customer",
+                        "type": "string",
+                        "example": "This is new company's email address details"
+                    },
+                    "info": {
+                        "title": "Info",
+                        "description": "Additional Info",
+                        "type": "object",
+                        "example": "'info':{'address':'colombo'}"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Is active or not",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "deleted_at": {
+                        "title": "Deleted at",
+                        "description": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Customer"
+                }
             },
-            "403": {
-                "description": "Forbidden"
+            "Invoice": {
+                "title": "Invoice",
+                "description": "Invoice Model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "title": "UUID",
+                        "description": "UUID",
+                        "type": "string",
+                        "example": "94f00347-6465-41e0-806e-801ddca16bda"
+                    },
+                    "invoice_no": {
+                        "title": "Invoice No",
+                        "type": "integer"
+                    },
+                    "due_date": {
+                        "title": "Due Date"
+                    },
+                    "customer_id": {
+                        "title": "Customer Id",
+                        "type": "integer"
+                    },
+                    "company_id": {
+                        "title": "Company Id",
+                        "type": "integer"
+                    },
+                    "total_amount": {
+                        "title": "Total Amount"
+                    },
+                    "info": {
+                        "title": "Info",
+                        "description": "Additional Info",
+                        "type": "object",
+                        "example": "'info':{'item-1':340}"
+                    },
+                    "status": {
+                        "title": "Status",
+                        "description": "Is active or not",
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "deleted_at": {
+                        "title": "Deleted at",
+                        "description": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Invoice"
+                }
+            },
+            "CompanyResource": {
+                "title": "Company Resource",
+                "description": "Comapny resource",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "result": {
+                        "properties": {
+                            "data": {
+                                "title": "Data",
+                                "description": "Company Data",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Company"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CompanyResource"
+                }
+            },
+            "CustomerResource": {
+                "title": "Customer Resource",
+                "description": "Customer Resource",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "result": {
+                        "properties": {
+                            "data": {
+                                "title": "Data",
+                                "description": "Customer Data",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Customer"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CustomerResource"
+                }
+            },
+            "InvoiceResource": {
+                "title": "Invoice Resource",
+                "description": "Invoice Resource",
+                "properties": {
+                    "success": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "result": {
+                        "properties": {
+                            "data": {
+                                "title": "Data",
+                                "description": "Invoice Data",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Invoice"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "InvoiceResource"
+                }
+            },
+            "StoreCompanyRequest": {
+                "title": "Store Company request",
+                "description": "Store Company request body data",
+                "required": [
+                    "name",
+                    "contact",
+                    "email",
+                    "debtor_limit"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new comapny",
+                        "type": "string",
+                        "example": "Darly Butley & company"
+                    },
+                    "contact": {
+                        "title": "contact",
+                        "description": "Contact of the new comapny",
+                        "type": "string",
+                        "example": "+9477869772"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email address of the new comapny",
+                        "type": "string",
+                        "example": "comapny@gmail.com"
+                    },
+                    "info": {
+                        "title": "info",
+                        "description": "info of the new comapny",
+                        "type": "object"
+                    },
+                    "debtor_limit": {
+                        "title": "Debtor Limit",
+                        "description": "Debtor limit of the new comapny",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 10000
+                    }
+                },
+                "type": "object"
+            },
+            "StoreCustomerRequest": {
+                "title": "Store Customer request",
+                "description": "Store Customer request body data",
+                "required": [
+                    "name",
+                    "contact",
+                    "email"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new customer",
+                        "type": "string",
+                        "example": "DBL customer"
+                    },
+                    "contact": {
+                        "title": "contact",
+                        "description": "Contact of the new customer",
+                        "type": "string",
+                        "example": "+9477869772"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email address of the new customer",
+                        "type": "string",
+                        "example": "customer@gmail.com"
+                    },
+                    "info": {
+                        "title": "info",
+                        "description": "info of the new customer",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreInvoiceRequest": {
+                "title": "Store Company request",
+                "description": "Store Company request body data",
+                "required": [
+                    "name",
+                    "contact",
+                    "email",
+                    "debtor_limit"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new comapny",
+                        "type": "string",
+                        "example": "Darly Butley & company"
+                    },
+                    "contact": {
+                        "title": "contact",
+                        "description": "Contact of the new comapny",
+                        "type": "string",
+                        "example": "+9477869772"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email address of the new comapny",
+                        "type": "string",
+                        "example": "comapny@gmail.com"
+                    },
+                    "info": {
+                        "title": "info",
+                        "description": "info of the new comapny",
+                        "type": "object"
+                    },
+                    "debtor_limit": {
+                        "title": "Debtor Limit",
+                        "description": "Debtor limit of the new comapny",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 10000
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCompanyRequest": {
+                "title": "Update Company request",
+                "description": "Store Company request body data",
+                "required": [
+                    "name",
+                    "contact",
+                    "email",
+                    "debtor_limit"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new comapny",
+                        "type": "string",
+                        "example": "Darly Butley & company"
+                    },
+                    "contact": {
+                        "title": "contact",
+                        "description": "Contact of the new comapny",
+                        "type": "string",
+                        "example": "+9477869772"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email address of the new comapny",
+                        "type": "string",
+                        "example": "comapny@gmail.com"
+                    },
+                    "info": {
+                        "title": "info",
+                        "description": "info of the new comapny",
+                        "type": "object"
+                    },
+                    "debtor_limit": {
+                        "title": "Debtor Limit",
+                        "description": "Debtor limit of the new comapny",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 10000
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateCustomerRequest": {
+                "title": "Update Customer request",
+                "description": "Update Customer request body data",
+                "required": [
+                    "name",
+                    "contact",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "title": "UUID",
+                        "description": "UUID",
+                        "type": "string",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new customer",
+                        "type": "string",
+                        "example": "Darly Butley & customer"
+                    },
+                    "contact": {
+                        "title": "contact",
+                        "description": "Contact of the new customer",
+                        "type": "string",
+                        "example": "+9477869772"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email address of the new customer",
+                        "type": "string",
+                        "example": "customer@gmail.com"
+                    },
+                    "info": {
+                        "title": "info",
+                        "description": "info of the new customer",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateInvoiceRequest": {
+                "title": "Update Company request",
+                "description": "Store Company request body data",
+                "required": [
+                    "name",
+                    "contact",
+                    "email",
+                    "debtor_limit"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new comapny",
+                        "type": "string",
+                        "example": "Darly Butley & company"
+                    },
+                    "contact": {
+                        "title": "contact",
+                        "description": "Contact of the new comapny",
+                        "type": "string",
+                        "example": "+9477869772"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email address of the new comapny",
+                        "type": "string",
+                        "example": "comapny@gmail.com"
+                    },
+                    "info": {
+                        "title": "info",
+                        "description": "info of the new comapny",
+                        "type": "object"
+                    },
+                    "debtor_limit": {
+                        "title": "Debtor Limit",
+                        "description": "Debtor limit of the new comapny",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 10000
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {

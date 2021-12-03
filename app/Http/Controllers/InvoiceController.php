@@ -39,15 +39,14 @@ class InvoiceController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/customers",
-     *      tags={"Customer(Debitors)"},
-     *      summary="Get list of customers",
-     *      description="Returns list of customers",
+     *      path="/invoices",
+     *      tags={"Invoice(Creditor's)"},
+     *      summary="Get list of Invoices",
      *      security={ * {"sanctum": {}}, * },
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *          @OA\JsonContent(ref="#/components/schemas/InvoiceResource")
      *       ),
      *      @OA\Response(
      *          response=401,
